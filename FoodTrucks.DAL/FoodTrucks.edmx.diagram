@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="621ce5dd2dab4e9588f59951a93ac806" Name="Diagram1">
+        <EntityTypeShape EntityType="FoodTrucksDbModel.Bar" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="FoodTrucksDbModel.FoodType" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="FoodTrucksDbModel.Review" Width="1.5" PointX="5.25" PointY="3.5" />
+        <EntityTypeShape EntityType="FoodTrucksDbModel.TruckDetail" Width="1.5" PointX="3" PointY="2.625" />
+        <AssociationConnector Association="FoodTrucksDbModel.FK_TruckDetail_Bar" />
+        <AssociationConnector Association="FoodTrucksDbModel.FK_TruckDetail_FoodType" />
+        <AssociationConnector Association="FoodTrucksDbModel.FK_Reviews_TruckDetail" />
+        <AssociationConnector Association="FoodTrucksDbModel.FK_TruckDetail_TruckDetail" />
+        <EntityTypeShape EntityType="FoodTrucksDbModel.User" Width="1.5" PointX="7.375" PointY="1" />
+        <AssociationConnector Association="FoodTrucksDbModel.FK_Reviews_User" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

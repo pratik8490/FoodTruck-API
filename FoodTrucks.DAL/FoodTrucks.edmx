@@ -1,0 +1,416 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="FoodTrucksDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Bar">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="ModifiedAt" Type="datetime" />
+        </EntityType>
+        <EntityType Name="FoodType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="ModifiedAt" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Reviews">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TruckId" Type="int" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="ModifiedAt" Type="datetime" />
+        </EntityType>
+        <EntityType Name="TruckDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TruckName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" />
+          <Property Name="FoodTypeId" Type="int" />
+          <Property Name="Lattitude" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsActive" Type="tinyint" />
+          <Property Name="Link" Type="nvarchar" MaxLength="50" />
+          <Property Name="Menu" Type="nvarchar" MaxLength="50" />
+          <Property Name="BarId" Type="int" />
+          <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="ModifedAt" Type="datetime" />
+          <Property Name="Longitude" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Pin" Type="int" Nullable="false" />
+          <Property Name="IsNotified" Type="tinyint" />
+          <Property Name="UserLocation" Type="tinyint" />
+          <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="ModifiedAt" Type="datetime" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="DeviceID" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsUser" Type="tinyint" />
+        </EntityType>
+        <Association Name="FK_Reviews_TruckDetail">
+          <End Role="TruckDetail" Type="Self.TruckDetail" Multiplicity="0..1" />
+          <End Role="Reviews" Type="Self.Reviews" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TruckDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reviews">
+              <PropertyRef Name="TruckId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reviews_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Reviews" Type="Self.Reviews" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reviews">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TruckDetail_Bar">
+          <End Role="Bar" Type="Self.Bar" Multiplicity="0..1" />
+          <End Role="TruckDetail" Type="Self.TruckDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bar">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TruckDetail">
+              <PropertyRef Name="BarId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TruckDetail_FoodType">
+          <End Role="FoodType" Type="Self.FoodType" Multiplicity="0..1" />
+          <End Role="TruckDetail" Type="Self.TruckDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FoodType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TruckDetail">
+              <PropertyRef Name="FoodTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TruckDetail_TruckDetail">
+          <End Role="TruckDetail" Type="Self.TruckDetail" Multiplicity="1" />
+          <End Role="TruckDetail1" Type="Self.TruckDetail" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="TruckDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TruckDetail1">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FoodTrucksDbModelStoreContainer">
+          <EntitySet Name="Bar" EntityType="Self.Bar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FoodType" EntityType="Self.FoodType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reviews" EntityType="Self.Reviews" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TruckDetail" EntityType="Self.TruckDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Reviews_TruckDetail" Association="Self.FK_Reviews_TruckDetail">
+            <End Role="TruckDetail" EntitySet="TruckDetail" />
+            <End Role="Reviews" EntitySet="Reviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reviews_User" Association="Self.FK_Reviews_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Reviews" EntitySet="Reviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TruckDetail_Bar" Association="Self.FK_TruckDetail_Bar">
+            <End Role="Bar" EntitySet="Bar" />
+            <End Role="TruckDetail" EntitySet="TruckDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TruckDetail_FoodType" Association="Self.FK_TruckDetail_FoodType">
+            <End Role="FoodType" EntitySet="FoodType" />
+            <End Role="TruckDetail" EntitySet="TruckDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TruckDetail_TruckDetail" Association="Self.FK_TruckDetail_TruckDetail">
+            <End Role="TruckDetail" EntitySet="TruckDetail" />
+            <End Role="TruckDetail1" EntitySet="TruckDetail" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FoodTrucksDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="FoodTrucksDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Bars" EntityType="FoodTrucksDbModel.Bar" />
+          <EntitySet Name="FoodTypes" EntityType="FoodTrucksDbModel.FoodType" />
+          <EntitySet Name="Reviews" EntityType="FoodTrucksDbModel.Review" />
+          <EntitySet Name="TruckDetails" EntityType="FoodTrucksDbModel.TruckDetail" />
+          <AssociationSet Name="FK_TruckDetail_Bar" Association="FoodTrucksDbModel.FK_TruckDetail_Bar">
+            <End Role="Bar" EntitySet="Bars" />
+            <End Role="TruckDetail" EntitySet="TruckDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TruckDetail_FoodType" Association="FoodTrucksDbModel.FK_TruckDetail_FoodType">
+            <End Role="FoodType" EntitySet="FoodTypes" />
+            <End Role="TruckDetail" EntitySet="TruckDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reviews_TruckDetail" Association="FoodTrucksDbModel.FK_Reviews_TruckDetail">
+            <End Role="TruckDetail" EntitySet="TruckDetails" />
+            <End Role="Review" EntitySet="Reviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TruckDetail_TruckDetail" Association="FoodTrucksDbModel.FK_TruckDetail_TruckDetail">
+            <End Role="TruckDetail" EntitySet="TruckDetails" />
+            <End Role="TruckDetail1" EntitySet="TruckDetails" />
+          </AssociationSet>
+          <EntitySet Name="Users" EntityType="FoodTrucksDbModel.User" />
+          <AssociationSet Name="FK_Reviews_User" Association="FoodTrucksDbModel.FK_Reviews_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Review" EntitySet="Reviews" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Bar">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="TruckDetails" Relationship="FoodTrucksDbModel.FK_TruckDetail_Bar" FromRole="Bar" ToRole="TruckDetail" />
+        </EntityType>
+        <EntityType Name="FoodType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="TruckDetails" Relationship="FoodTrucksDbModel.FK_TruckDetail_FoodType" FromRole="FoodType" ToRole="TruckDetail" />
+        </EntityType>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TruckId" Type="Int32" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="TruckDetail" Relationship="FoodTrucksDbModel.FK_Reviews_TruckDetail" FromRole="Review" ToRole="TruckDetail" />
+          <NavigationProperty Name="User" Relationship="FoodTrucksDbModel.FK_Reviews_User" FromRole="Review" ToRole="User" />
+        </EntityType>
+        <EntityType Name="TruckDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TruckName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FoodTypeId" Type="Int32" />
+          <Property Name="Lattitude" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Byte" />
+          <Property Name="Link" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Menu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BarId" Type="Int32" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="ModifedAt" Type="DateTime" Precision="3" />
+          <Property Name="Longitude" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Bar" Relationship="FoodTrucksDbModel.FK_TruckDetail_Bar" FromRole="TruckDetail" ToRole="Bar" />
+          <NavigationProperty Name="FoodType" Relationship="FoodTrucksDbModel.FK_TruckDetail_FoodType" FromRole="TruckDetail" ToRole="FoodType" />
+          <NavigationProperty Name="Reviews" Relationship="FoodTrucksDbModel.FK_Reviews_TruckDetail" FromRole="TruckDetail" ToRole="Review" />
+          <NavigationProperty Name="TruckDetail1" Relationship="FoodTrucksDbModel.FK_TruckDetail_TruckDetail" FromRole="TruckDetail" ToRole="TruckDetail1" />
+          <NavigationProperty Name="TruckDetail2" Relationship="FoodTrucksDbModel.FK_TruckDetail_TruckDetail" FromRole="TruckDetail1" ToRole="TruckDetail" />
+        </EntityType>
+        <Association Name="FK_TruckDetail_Bar">
+          <End Type="FoodTrucksDbModel.Bar" Role="Bar" Multiplicity="0..1" />
+          <End Type="FoodTrucksDbModel.TruckDetail" Role="TruckDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bar">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TruckDetail">
+              <PropertyRef Name="BarId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TruckDetail_FoodType">
+          <End Type="FoodTrucksDbModel.FoodType" Role="FoodType" Multiplicity="0..1" />
+          <End Type="FoodTrucksDbModel.TruckDetail" Role="TruckDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FoodType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TruckDetail">
+              <PropertyRef Name="FoodTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reviews_TruckDetail">
+          <End Type="FoodTrucksDbModel.TruckDetail" Role="TruckDetail" Multiplicity="0..1" />
+          <End Type="FoodTrucksDbModel.Review" Role="Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TruckDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="TruckId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TruckDetail_TruckDetail">
+          <End Type="FoodTrucksDbModel.TruckDetail" Role="TruckDetail" Multiplicity="1" />
+          <End Type="FoodTrucksDbModel.TruckDetail" Role="TruckDetail1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="TruckDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TruckDetail1">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Pin" Type="Int32" Nullable="false" />
+          <Property Name="IsNotified" Type="Byte" />
+          <Property Name="UserLocation" Type="Byte" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedAt" Type="DateTime" Precision="3" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DeviceID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Reviews" Relationship="FoodTrucksDbModel.FK_Reviews_User" FromRole="User" ToRole="Review" />
+          <Property Name="IsUser" Type="Byte" />
+        </EntityType>
+        <Association Name="FK_Reviews_User">
+          <End Type="FoodTrucksDbModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="FoodTrucksDbModel.Review" Role="Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FoodTrucksDbModelStoreContainer" CdmEntityContainer="FoodTrucksDbEntities">
+          <EntitySetMapping Name="Bars">
+            <EntityTypeMapping TypeName="FoodTrucksDbModel.Bar">
+              <MappingFragment StoreEntitySet="Bar">
+                <ScalarProperty Name="ModifiedAt" ColumnName="ModifiedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FoodTypes">
+            <EntityTypeMapping TypeName="FoodTrucksDbModel.FoodType">
+              <MappingFragment StoreEntitySet="FoodType">
+                <ScalarProperty Name="ModifiedAt" ColumnName="ModifiedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reviews">
+            <EntityTypeMapping TypeName="FoodTrucksDbModel.Review">
+              <MappingFragment StoreEntitySet="Reviews">
+                <ScalarProperty Name="ModifiedAt" ColumnName="ModifiedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="TruckId" ColumnName="TruckId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TruckDetails">
+            <EntityTypeMapping TypeName="FoodTrucksDbModel.TruckDetail">
+              <MappingFragment StoreEntitySet="TruckDetail">
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="ModifedAt" ColumnName="ModifedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="BarId" ColumnName="BarId" />
+                <ScalarProperty Name="Menu" ColumnName="Menu" />
+                <ScalarProperty Name="Link" ColumnName="Link" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Lattitude" ColumnName="Lattitude" />
+                <ScalarProperty Name="FoodTypeId" ColumnName="FoodTypeId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="TruckName" ColumnName="TruckName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="FoodTrucksDbModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="IsUser" ColumnName="IsUser" />
+                <ScalarProperty Name="DeviceID" ColumnName="DeviceID" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="ModifiedAt" ColumnName="ModifiedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="UserLocation" ColumnName="UserLocation" />
+                <ScalarProperty Name="IsNotified" ColumnName="IsNotified" />
+                <ScalarProperty Name="Pin" ColumnName="Pin" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
